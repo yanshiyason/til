@@ -4,9 +4,9 @@ My dev blog
 
 ### Categories
 
-* [launchctl](launchctl)
-* [lua](lua)
-* [vim](vim)
+* [launchctl](#launchctl)
+* [lua](#lua)
+* [vim](#vim)
 
 ---
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'active_support/inflector'
+
 category_to_files = {}
 
 categories = Dir['*'].select { |entry| File.directory?(entry) }
@@ -19,7 +21,7 @@ table_of_content =
   <<~MARKDOWN
     ### Categories
 
-    #{categories.map { |i| "* [#{i}](#{i})" }.join("\n")}
+    #{categories.map { |i| "* [#{i}](##{i.parameterize})" }.join("\n")}
   MARKDOWN
 
 categories_markdown = categories.map do |category|
