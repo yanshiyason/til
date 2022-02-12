@@ -34,7 +34,7 @@ In order to have the process launch automatically, this is what I had to do:
 			<string>/bin/zsh</string>
 			<string>-c</string>
 			<string>-l</string>
-			<string>/opt/homebrew/bin/gitwatch -r git@github.com:yanshiyason/notes.git .</string>
+			<string>cd ~/yanshiyason/notes && /opt/homebrew/bin/gitwatch -r git@github.com:yanshiyason/notes.git .</string>
 		</array>
 		<key>RunAtLoad</key>
 		<true/>
@@ -43,7 +43,7 @@ In order to have the process launch automatically, this is what I had to do:
 		<key>StandardOutPath</key>
 		<string>/opt/homebrew/var/log/com.shiyason.gitwatch.notes.log</string>
 		<key>WorkingDirectory</key>
-		<string>/Users/yannickchiasson/yanshiyason/notes</string>
+		<string>/</string>
 	</dict>
 </plist>
 ```
@@ -51,6 +51,11 @@ In order to have the process launch automatically, this is what I had to do:
 Make sure the label is unique.
 Using `/bin/zsh -c -l` launches the command after loading the .zshrc file which
 might be necessary (if the command requires your environment loaded)
+
+The `WorkingDirectory` is the directory launchtl will run in, since you don't
+have access to your env vars yet, it's better to use `cd` inside the shell
+command so your launch agent remains portable. (instead of hardcoding the user
+$HOME directory in there)
 
 2. Use the `launchctl` commands the make sure the thing is working
 
