@@ -6,15 +6,18 @@ category_to_files = {}
 
 categories = Dir['*'].select { |entry| File.directory?(entry) }
 
+pwd = Dir.pwd
 categories.each do |category|
-  Dir["#{category}/*.md"].each do |file_path|
+  Dir.chdir("#{pwd}/#{category}")
+  `git ls-files -- '*.md'`.split("\n").each do |file_path|
     match = File.read(file_path).match(/^# (.+)/)
     raise "malformed title: #{file_path}" unless match
 
     title = match[1]
     category_to_files[category] ||= []
-    category_to_files[category] << {path: file_path, title: title}
+    category_to_files[category] << {path: "#{category}/#{file_path}", title: title}
   end
+  Dir.chdir(pwd)
 end
 
 table_of_content =

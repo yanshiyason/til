@@ -6,6 +6,7 @@ My dev blog
 
 * [launchctl](#launchctl)
 * [lua](#lua)
+* [rails](#rails)
 * [vim](#vim)
 
 ---
@@ -18,6 +19,11 @@ My dev blog
 ### lua
 
 - [Defining a module](lua/defining_a_module.md)
+
+
+### rails
+
+- [Using `GlobalID` to pass polymorphic URL parameters to controllers](rails/using_global_id_to_pass_polymorphic_url_parameters_to_controllers.md)
 
 
 ### vim
