@@ -2,22 +2,17 @@
 
 require 'active_support/inflector'
 
-category_to_files = {}
+categories = Dir['*'].select { |entry| File.directory?(entry) } 
 
-categories = Dir['*'].select { |entry| File.directory?(entry) }
-
-pwd = Dir.pwd
-categories.each do |category|
-  Dir.chdir("#{pwd}/#{category}")
-  `git ls-files -- '*.md'`.split("\n").each do |file_path|
+category_files = categories.each_with_object({}) do |category, acc|
+  `git ls-files -- '#{category}*.md'`.split("\n").each do |file_path|
     match = File.read(file_path).match(/^# (.+)/)
     raise "malformed title: #{file_path}" unless match
 
     title = match[1]
-    category_to_files[category] ||= []
-    category_to_files[category] << {path: "#{category}/#{file_path}", title: title}
+    acc[category] ||= []
+    acc[category] << {path: file_path, title: title}
   end
-  Dir.chdir(pwd)
 end
 
 timeline = `git ls-files -- '*.md'`.split.reject { |r| r == 'README.md' }.sort_by { |i| File.mtime(i) }.reverse.map { |file_path| 
@@ -31,19 +26,8 @@ timeline = `git ls-files -- '*.md'`.split.reject { |r| r == 'README.md' }.sort_b
   "- [#{day} [#{category}] #{title}](#{file_path})"
 }
 
-table_of_content =
-  <<~MARKDOWN
-    ### Timeline
-
-    #{timeline.join("\n")}
-
-    ### Categories
-
-    #{categories.map { |i| "* [#{i}](##{i.parameterize})" }.join("\n")}
-  MARKDOWN
-
 categories_markdown = categories.map do |category|
-  list_items = category_to_files[category].map { |file|
+  list_items = category_files[category].map { |file|
     "- [#{file[:title]}](#{file[:path]})"
   }.join("\n")
 
@@ -59,7 +43,14 @@ readme = <<~MARKDOWN
 
   My dev blog
 
-  #{table_of_content}
+  ### Timeline
+
+  #{timeline.join("\n")}
+
+  ### Categories
+
+  #{categories.map { |i| "* [#{i}](##{i.parameterize})" }.join("\n")}
+
   ---
 
   #{categories_markdown}
