@@ -23,6 +23,7 @@ My dev blog
 
 ### rails
 
+- [Active storage and file content types](rails/active_storage_and_content_types.md)
 - [Using `GlobalID` to pass polymorphic URL parameters to controllers](rails/using_global_id_to_pass_polymorphic_url_parameters_to_controllers.md)
 
 
