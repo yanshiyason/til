@@ -20,8 +20,23 @@ categories.each do |category|
   Dir.chdir(pwd)
 end
 
+timeline = `git ls-files -- '*.md'`.split.reject { |r| r == 'README.md' }.sort_by { |i| File.mtime(i) }.reverse.map { |file_path| 
+  match = File.read(file_path).match(/^# (.+)/)
+  raise "malformed title: #{file_path}" unless match
+
+  day = File.mtime(file_path).strftime('%Y-%m-%d')
+  title = match[1]
+  category = file_path.split('/')[0]
+
+  "- [#{day} [#{category}] #{title}](#{file_path})"
+}
+
 table_of_content =
   <<~MARKDOWN
+    ### Timeline
+
+    #{timeline.join("\n")}
+
     ### Categories
 
     #{categories.map { |i| "* [#{i}](##{i.parameterize})" }.join("\n")}
