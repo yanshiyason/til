@@ -17,8 +17,10 @@ work pretty well. It's called [gitwatch](https://github.com/gitwatch/gitwatch).
 In order to have the process launch automatically, this is what I had to do:
 
 1. Create a plist file inside the user's LaunchAgent directory:
-	
-	~/Library/LaunchAgents/com.shiyason.gitwatch.notes.plist
+
+```
+~/Library/LaunchAgents/com.shiyason.gitwatch.notes.plist
+```
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -34,7 +36,7 @@ In order to have the process launch automatically, this is what I had to do:
 			<string>/bin/zsh</string>
 			<string>-c</string>
 			<string>-l</string>
-			<string>cd ~/yanshiyason/notes && /opt/homebrew/bin/gitwatch -r git@github.com:yanshiyason/notes.git .</string>
+			<string>cd ~/yanshiyason/notes && GW_INW_BIN=/opt/homebrew/bin/fswatch /opt/homebrew/bin/gitwatch -r git@github.com:yanshiyason/notes.git . -s 30 .</string>
 		</array>
 		<key>RunAtLoad</key>
 		<true/>
@@ -46,16 +48,16 @@ In order to have the process launch automatically, this is what I had to do:
 		<string>/</string>
 	</dict>
 </plist>
+
 ```
 
 Make sure the label is unique.
 Using `/bin/zsh -c -l` launches the command after loading the .zshrc file which
 might be necessary (if the command requires your environment loaded)
 
-The `WorkingDirectory` is the directory launchtl will run in, since you don't
-have access to your env vars yet, it's better to use `cd` inside the shell
-command so your launch agent remains portable. (instead of hardcoding the user
-$HOME directory in there)
+launchtl runs in `WorkingDirectory` and you don't have access to your env vars yet.
+Use `cd` in the config file zsh command so your launch agent config remains portable.
+(ie: don't hardcode the value of $HOME)
 
 2. Use the `launchctl` commands the make sure the thing is working
 
@@ -67,8 +69,9 @@ launchctl load ~/Library/LaunchAgents/com.shiyason.gitwatch.notes.plist
 launchctl start com.shiyason.gitwatch.notes.plist
 
 # check the logs
-tail -f /Users/yannickchiasson/yanshiyason/notes 
+tail -f /opt/homebrew/var/log/com.shiyason.gitwatch.notes.log
 ```
 
 NOTES:
+
 - https://apple.stackexchange.com/questions/110644/getting-launchd-to-read-program-arguments-correctly
