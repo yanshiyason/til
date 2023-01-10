@@ -4,8 +4,9 @@ My dev blog
 
 ### Timeline
 
+- [2023-01-11 [js] Installing a specific version under an alias](js/installing_a_specific_version_under_an_alias.md)
+- [2022-12-13 [launchctl] Launching a daemon on mac](launchctl/launching_a_daemon_on_mac.md)
 - [2022-12-09 [docker] Confirming Ignore File](docker/confirming_ignore_file.md)
-- [2022-09-26 [launchctl] Launching a daemon on mac](launchctl/launching_a_daemon_on_mac.md)
 - [2022-06-17 [rails] Https on localhost](rails/https_on_localhost.md)
 - [2022-04-01 [webpack] Analyzing production bundles](webpack/analyzing_production_bundles.md)
 - [2022-03-14 [rails] requestSubmit bug on Safari](rails/request_submit_bug_on_safari.md)
@@ -17,6 +18,7 @@ My dev blog
 ### Categories
 
 * [docker](#docker)
+* [js](#js)
 * [launchctl](#launchctl)
 * [lua](#lua)
 * [rails](#rails)
@@ -28,6 +30,11 @@ My dev blog
 ### docker
 
 - [Confirming Ignore File](docker/confirming_ignore_file.md)
+
+
+### js
+
+- [Installing a specific version under an alias](js/installing_a_specific_version_under_an_alias.md)
 
 
 ### launchctl
